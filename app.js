@@ -20,6 +20,8 @@ require('dotenv').config({
   silent: true
 });
 
+const request = require("request");
+
 const express = require('express'); // app server
 const bodyParser = require('body-parser'); // parser for post requests
 const numeral = require('numeral');
@@ -109,9 +111,10 @@ app.post('/api/message', function(req, res) {
 
     const payload = {
       workspace_id: workspaceID,
-      context: {
-        person: person
-      },
+      // context: {
+      //   person: person
+      // },
+      context: req.body.context || {},
       input: {}
     };
 
@@ -166,10 +169,26 @@ app.post('/api/message', function(req, res) {
   function callAssistant(payload) {
     const queryInput = JSON.stringify(payload.input);
 
+    const url = "https://v3.exchangerate-api.com/pair/925fdf1123b6751ee2f1b09f/OMR/INR";
+          request.get(url, (error, response, body) => {
+            let json = JSON.parse(body);
+            console.log('Currancy: ', json.rate);
+            const rateN = json.rate;
+            if (json.result == "error") {
+              console.log("Undefined results found!");
+              payload.context['f_rate'] = "You entered the wrong currancy codes! https://www.exchangerate-api.com/supported-currencies to get the right codes";
+            }
+            else {
+              payload.context['f_rate'] = rateN;
+              console.log("\nPayload test : " + payload.context['f_rate']);
+            }
+          });
+
     const toneParams = {
       tone_input: { text: queryInput },
       content_type: 'application/json'
     };
+
     toneAnalyzer.tone(toneParams, function(err, tone) {
       let toneAngerScore = '';
       if (err) {
@@ -339,13 +358,12 @@ app.post('/api/message', function(req, res) {
     });
   }
 });
-
 /**
  * Looks for actions requested by Assistant service and provides the requested data.
  */
 function checkForLookupRequests(data, callback) {
   console.log('checkForLookupRequests');
-
+  
   if (data.context && data.context.action && data.context.action.lookup && data.context.action.lookup != 'complete') {
     const payload = {
       workspace_id: workspaceID,
