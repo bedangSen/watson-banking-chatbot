@@ -21,6 +21,8 @@ require('dotenv').config({
 });
 
 const request = require("request");
+var waitOn = require('wait-on');
+const https = require('https');
 
 const express = require('express'); // app server
 const bodyParser = require('body-parser'); // parser for post requests
@@ -169,8 +171,107 @@ app.post('/api/message', function(req, res) {
   function callAssistant(payload) {
     const queryInput = JSON.stringify(payload.input);
 
-    const url = "https://v3.exchangerate-api.com/pair/925fdf1123b6751ee2f1b09f/OMR/INR";
+
+    
+
+    const url = "https://185.64.26.74/oab/testing/getcustomerinformation/CustomerINformation";
           request.get(url, (error, response, body) => {
+            let json = JSON.parse(body);
+
+            console.log("\n\nCustomer Name : " + json['soap:Envelope']['soap:Body']['ns:Reply']['ns:Data']['ns:CustomerInformation']['ns:shortName']['$'])
+
+            // console.log("Test : " + json[1])
+
+            
+
+
+
+
+
+
+            const person_name = "";
+            const bank_branch = "";
+            const customer_type = "";
+            // const rateN = json.rate;
+            if (json.result == "error") {
+              console.log("Undefined results found!");
+              // payload.context['f_rate'] = "You entered the wrong currancy codes! https://www.exchangerate-api.com/supported-currencies to get the right codes";
+            }
+            else {
+              payload.context['name'] = "";
+              payload.context['branch'] = "";
+              payload.context['custoner_type'] = "";
+
+              console.log("\nPayload test : " + payload.context['name']);
+              console.log("\nPayload test : " + payload.context['branch']);
+              console.log("\nPayload test : " + payload.context['customer_type']);
+            }
+          });
+
+    // app.post
+
+
+    // var options = {
+    //   url: 'https://api.github.com/repos/request/request',
+    //   headers: {
+    //     'channel': 'Tst',
+    //     'transactionDate': '2018-12-11',
+    //     'transactionTime': '10:10:10',
+    //     'X-IBM-Client-Id': 'd4b9d9f2-1e26-4fd9-ad34-6e99a046dd28',
+    //     'Accept' : 'application/json',
+    //     'Content-Type': 'application/json'       
+    //   },
+    //   'Data': {
+    //     'GetCustomerInformation': {
+    //        'customer': '60496'
+    //     }
+    //  }
+    // };
+     
+    // function callback(error, response, body) {
+    //   if (!error && response.statusCode == 200) {
+    //     // var info = JSON.parse(body);
+    //     // console.log(info.stargazers_count + " Stars");
+    //     // console.log(info.forks_count + " Forks");
+
+    //     let json = JSON.parse(body);
+
+    //         console.log("\n\nCustomer Name : " + json['soap:Envelope']['soap:Body']['ns:Reply']['ns:Data']['ns:CustomerInformation']['ns:shortName']['$'])
+
+    //         // console.log("Test : " + json[1])
+
+    //         const person_name = json['soap:Envelope']['soap:Body']['ns:Reply']['ns:Data']['ns:CustomerInformation']['ns:shortName']['$'];
+    //         const bank_branch = json['soap:Envelope']['soap:Body']['ns:Reply']['ns:Data']['ns:CustomerInformation']['ns:branch']['$'];
+    //         const customer_type = json['soap:Envelope']['soap:Body']['ns:Reply']['ns:Data']['ns:CustomerInformation']['ns:customerType']['$'];
+    //         // const rateN = json.rate;
+    //         if (json.result == "error") {
+    //           console.log("Undefined results found!");
+    //           // payload.context['f_rate'] = "You entered the wrong currancy codes! https://www.exchangerate-api.com/supported-currencies to get the right codes";
+    //         }
+    //         else {
+    //           payload.context['name'] = "";
+    //           payload.context['branch'] = "";
+    //           payload.context['custoner_type'] = "";
+
+    //           console.log("\nPayload test : " + payload.context['name']);
+    //           console.log("\nPayload test : " + payload.context['branch']);
+    //           console.log("\nPayload test : " + payload.context['customer_type']);
+    //         }
+    //   }
+    //   else
+    //   {
+    //     console.log("=================>Error : " + error)
+    //   }
+    // }
+     
+    // request(options, callback);
+
+    payload.context['name'] = "CUSTOMER 999999";
+              payload.context['branch'] = "3101";
+              payload.context['customer_type'] = "CD";
+
+    const url2 = "https://v3.exchangerate-api.com/pair/925fdf1123b6751ee2f1b09f/OMR/EUR";
+          request.get(url2, (error, response, body) => {
             let json = JSON.parse(body);
             console.log('Currancy: ', json.rate);
             const rateN = json.rate;

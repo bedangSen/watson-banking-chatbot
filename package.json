@@ -17,6 +17,7 @@
     "http": "0.0.0",
     "https": "^1.0.0",
     "numeral": "^2.0.6",
+    "wait-on": "^3.2.0",
     "watson-developer-cloud": "^3.7.1"
   },
   "repository": "github:IBM/watson-banking-chatbot",
