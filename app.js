@@ -175,41 +175,58 @@ app.post('/api/message', function(req, res) {
     
 
     const url = "https://185.64.26.74/oab/testing/getcustomerinformation/CustomerINformation";
-          request.get(url, (error, response, body) => {
-            let json = JSON.parse(body);
+          // request.get(url, (error, response, body) => {
+          //   // let json = JSON.parse(body);
 
-            console.log("\n\nCustomer Name : " + json['soap:Envelope']['soap:Body']['ns:Reply']['ns:Data']['ns:CustomerInformation']['ns:shortName']['$'])
+          //   // console.log("\n\nCustomer Name : " + json['soap:Envelope']['soap:Body']['ns:Reply']['ns:Data']['ns:CustomerInformation']['ns:shortName']['$'])
 
-            // console.log("Test : " + json[1])
+          //   // console.log("Test : " + json[1])
 
-            
+          //   const person_name = "";
+          //   const bank_branch = "";
+          //   const customer_type = "";
+          //   // const rateN = json.rate;
+          //   if (json.result == "error") {
+          //     console.log("Undefined results found!");
+          //     // payload.context['f_rate'] = "You entered the wrong currancy codes! https://www.exchangerate-api.com/supported-currencies to get the right codes";
+          //   }
+          //   else {
+          //     payload.context['name'] = "";
+          //     payload.context['branch'] = "";
+          //     payload.context['custoner_type'] = "";
 
+          //     console.log("\nPayload test : " + payload.context['name']);
+          //     console.log("\nPayload test : " + payload.context['branch']);
+          //     console.log("\nPayload test : " + payload.context['customer_type']);
+          //   }
+          // });
 
-
-
-
-
-            const person_name = "";
-            const bank_branch = "";
-            const customer_type = "";
-            // const rateN = json.rate;
-            if (json.result == "error") {
-              console.log("Undefined results found!");
-              // payload.context['f_rate'] = "You entered the wrong currancy codes! https://www.exchangerate-api.com/supported-currencies to get the right codes";
-            }
-            else {
-              payload.context['name'] = "";
-              payload.context['branch'] = "";
-              payload.context['custoner_type'] = "";
-
-              console.log("\nPayload test : " + payload.context['name']);
-              console.log("\nPayload test : " + payload.context['branch']);
-              console.log("\nPayload test : " + payload.context['customer_type']);
-            }
-          });
-
-    // app.post
-
+        //   request.post(
+        //     'https://185.64.26.74/oab/testing/getcustomerinformation/CustomerINformation',
+        //     {
+        //       "Header": null,
+        //       "Body": {
+        //          "Request": {
+        //             "Header": {
+        //                "channel": "Tst",
+        //                "transactionDate": "2018-12-11",
+        //                "transactionTime": "10:10:10"
+        //             },
+        //             "Data": {
+        //                "GetCustomerInformation": {
+        //                   "customer": "060496"
+        //                }
+        //             }
+        //          }
+        //       }
+        //    }
+           
+        //     function (error, response, body) {
+        //         if (!error && response.statusCode == 200) {
+        //             console.log(body)
+        //         }
+        //     }
+        // );
 
     // var options = {
     //   url: 'https://api.github.com/repos/request/request',
